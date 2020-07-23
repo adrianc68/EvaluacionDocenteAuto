@@ -93,8 +93,11 @@ public class AutomatizationController implements Initializable {
 
     @FXML
     void configureAnswersButtonPressed(ActionEvent event) {
-        if(questionElementList.size() != 0 ) {
+        if(questionElementList != null && questionElementList.size() != 0 ) {
             ConfigureController configureController = new ConfigureController(questionElementList);
+            if(selectedAnswerHashMap != null) {
+                configureController.setSelectedAnswersHashMap(selectedAnswerHashMap);
+            }
             configureController.getStage();
             selectedAnswerHashMap = configureController.getSelectedAnswersHashMap();
             System.out.println("CONTENIDO DEL HASH MAPPP *************");
@@ -105,13 +108,15 @@ public class AutomatizationController implements Initializable {
 
     @FXML
     void evaluateProfessorButtonPressed(ActionEvent event) {
-        AutomaticBrowser automaticBrowser = new AutomaticBrowser();
-        automaticBrowser.evaluateOptions(BrowserType.CHROME, selectedAnswerHashMap, userTextField.getText(), passwordPasswordField.getText(), professorSelected.getProfessor() );
+        if( professorSelected != null && selectedAnswerHashMap != null) {
+            AutomaticBrowser automaticBrowser = new AutomaticBrowser(userTextField.getText(), passwordPasswordField.getText());
+            automaticBrowser.evaluateOptions(BrowserType.CHROME, selectedAnswerHashMap, professorSelected.getProfessor() );
+        }
     }
 
     private void getQuestionnarieAndProfessors(String browserType) {
-        AutomaticBrowser automaticBrowser = new AutomaticBrowser();
-        Object[] questionnarie = automaticBrowser.getProfessorAndQuestions(browserType, userTextField.getText(), passwordPasswordField.getText() );
+        AutomaticBrowser automaticBrowser = new AutomaticBrowser( userTextField.getText(), passwordPasswordField.getText() );
+        Object[] questionnarie = automaticBrowser.getProfessorAndQuestions(browserType);
         professorElementObservableList.addAll( (List)questionnarie[0] );
         questionElementList = new ArrayList<>();
         questionElementList.addAll((List) questionnarie[1]);

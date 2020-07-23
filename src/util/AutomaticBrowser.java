@@ -8,6 +8,7 @@ import browser.SafariBrowserBuilder;
 import evaluation.AnswerElement;
 import evaluation.ProfessorElement;
 import evaluation.QuestionElement;
+import evaluation.QuestionType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -20,21 +21,46 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AutomaticBrowser {
-    private String url;
-    private String usernameElementXpath;
-    private String passwordElementXPath;
-    private String buttonLoginElementXpath;
-    private String buttonNextElementXpath;
-    private String questionElementXpath;
-    private String questionOptionElementXpath;
+    private final String URL;
+    private final String USERNAME_ELEMENT_XPATH;
+    private final String PASSWORD_ELEMENT_XPATH;
+    private final String BUTTON_LOGIN_ELEMENT_XPATH;
+    private final String BUTTON_NEXT_ELEMENT_XPATH;
+    private final String PROFESSOR_ELEMENT_XPATH;
+    private final String QUESTION_ELEMENT_XPATH;
+    private final String QUESTION_OPTION_ELEMENT_XPATH;
+    private final String POPUP_ELEMENT_XPATH;
+    private final String PROFESSOR_WITH_ID_SELECTION_XPATH;
+    private final String SELECTABLE_RADIO_OR_CHECKBUTTON_XPATH;
+    private final int SIZE_NUMBER_SINGLE_QUESTION;
+    private final String ACCOUNT;
+    private final String PASSWORD;
     private Browser browser;
 
-    private void navigateInLoginPage(String account, String password) {
+    public AutomaticBrowser(String account, String password) {
+        AutomaticBrowserProperties automaticBrowserProperties = new AutomaticBrowserProperties();
+        URL =automaticBrowserProperties.getUrl();
+        USERNAME_ELEMENT_XPATH = automaticBrowserProperties.getUsernameElementXpath();
+        PASSWORD_ELEMENT_XPATH = automaticBrowserProperties.getPasswordElementXPath();
+        BUTTON_LOGIN_ELEMENT_XPATH = automaticBrowserProperties.getButtonLoginElementXpath();
+        BUTTON_NEXT_ELEMENT_XPATH = automaticBrowserProperties.getButtonNextElementXpath();
+        PROFESSOR_ELEMENT_XPATH = automaticBrowserProperties.getProfessorElementXpath();
+        QUESTION_ELEMENT_XPATH = automaticBrowserProperties.getQuestionElementXpath();
+        QUESTION_OPTION_ELEMENT_XPATH = automaticBrowserProperties.getQuestionOptionElementXpath();
+        POPUP_ELEMENT_XPATH = automaticBrowserProperties.getPopUpElementXPath();
+        PROFESSOR_WITH_ID_SELECTION_XPATH = automaticBrowserProperties.getProfessorWithIdSelectionElementXPath();
+        SELECTABLE_RADIO_OR_CHECKBUTTON_XPATH = automaticBrowserProperties.getSelectableRadioOrCheckButtonElementXPath();
+        SIZE_NUMBER_SINGLE_QUESTION = Integer.parseInt( automaticBrowserProperties.getSizeNumberElementXPath() );
+        this.ACCOUNT = account;
+        this.PASSWORD = password;
+    }
+
+    private void navigateInLoginPage() {
         WebDriver driver = browser.getWebDriver();
-        driver.get("https://eval.uv.mx/evaluacion/Estudiante/Estudiante");
-        driver.findElement(By.xpath("//*[@id='username']")).sendKeys(account);
-        driver.findElement(By.xpath("//*[@id='password']")).sendKeys(password);
-        driver.findElement(By.xpath("//*[@id='BtnLogin']")).click();
+        driver.get(URL);
+        driver.findElement(By.xpath(USERNAME_ELEMENT_XPATH)).sendKeys(ACCOUNT);
+        driver.findElement(By.xpath(PASSWORD_ELEMENT_XPATH)).sendKeys(PASSWORD);
+        driver.findElement(By.xpath(BUTTON_LOGIN_ELEMENT_XPATH)).click();
     }
 
     private List<WebElement> findElements(String xpath) {
@@ -49,14 +75,25 @@ public class AutomaticBrowser {
         return webElement;
     }
 
+    public boolean existElement(String xpath) {
+        WebDriver driver = browser.getWebDriver();
+        boolean existElement = true;
+        try{
+            driver.findElement(By.xpath(xpath));
+        } catch (NoSuchElementException e) {
+            existElement = false;
+        }
+        return existElement;
+    }
 
-    public Object[] getProfessorAndQuestions(String browserType, String account, String password) {
+    public Object[] getProfessorAndQuestions(String browserType) {
         List<ProfessorElement> professorElementsList = new ArrayList<>();
         List<QuestionElement> questionElementsList = new ArrayList<>();
         browser = buildConcreteBrowser(browserType);
         WebDriver driver = browser.getWebDriver();
-        navigateInLoginPage(account, password);
-        List<WebElement> professorElements = findElements("//p[@class = 'title']");
+        WebDriverWait wait = browser.getWebDriverWait();
+        navigateInLoginPage();
+        List<WebElement> professorElements = findElements(PROFESSOR_ELEMENT_XPATH);
         int professorWebPosition = 1;
         for(WebElement webElement: professorElements){
             ProfessorElement professorElement = new ProfessorElement();
@@ -64,76 +101,54 @@ public class AutomaticBrowser {
             professorElement.setPositionWebElement(professorWebPosition++);
             professorElementsList.add(professorElement);
         }
-        WebDriverWait wait = browser.getWebDriverWait();
         professorElements.get(0).click();
-        int count = 1;
         do {
-            WebElement questionElement = findElement("//p[@class = 'pregunta']");
-            QuestionElement questionWebElement = new QuestionElement();
-            questionWebElement.setQuestion( questionElement.getText() );
-            List<WebElement> questionElements = findElements("//div[@class = 'opciones']//child::div");
-//            System.out.println(count);
-//            System.out.println(questionElement.getText() );
-//            showTableComponents(driver);
+            WebElement questionWebElement = findElement(QUESTION_ELEMENT_XPATH);
+            QuestionElement questionElement = new QuestionElement();
+            questionElement.setQuestion( questionWebElement.getText() );
+            List<WebElement> optionsElements = findElements(QUESTION_OPTION_ELEMENT_XPATH);
             List<AnswerElement> answerElementsList = new ArrayList<>();
+            if(optionsElements.size() > SIZE_NUMBER_SINGLE_QUESTION) {
+                questionElement.setQuestionType(QuestionType.MULTIPLE);
+            } else {
+                questionElement.setQuestionType(QuestionType.SINGLE);
+            }
             int positionAnswerWebElement = 1;
-            for(WebElement webElement: questionElements) {
+            for(WebElement webElement: optionsElements) {
                 AnswerElement answerElement = new AnswerElement();
                 answerElement.setAnswer( webElement.getText() );
                 answerElement.setElementPosition(positionAnswerWebElement);
                 answerElementsList.add(answerElement);
                 positionAnswerWebElement++;
             }
-            questionWebElement.setAnswerElements(answerElementsList);
-            questionElementsList.add(questionWebElement);
-            count++;
-            wait.until( ExpectedConditions.elementToBeClickable( By.xpath("//*[@id='btnPregSig']") ) ).click();
-        } while ( !existElement(driver) );
-        Object[] list = new Object[2];
-        list[0] = professorElementsList;
-        list[1] = questionElementsList;
+            questionElement.setAnswerElements(answerElementsList);
+            System.out.println(questionElement);
+            questionElementsList.add(questionElement);
+            wait.until( ExpectedConditions.elementToBeClickable( By.xpath(BUTTON_NEXT_ELEMENT_XPATH) ) ).click();
+        } while ( !existElement(POPUP_ELEMENT_XPATH) );
+        Object[] professorAndQuestionArray = new Object[2];
+        professorAndQuestionArray[0] = professorElementsList;
+        professorAndQuestionArray[1] = questionElementsList;
         driver.close();
-        return list;
+        return professorAndQuestionArray;
     }
 
-
-
-    public void showTableComponents(WebDriver driver) {
-        List<WebElement> list = driver.findElements(By.xpath("//tbody[@class = 'filas']//child::tr") );
-        list.forEach( (value) -> {
-            System.out.println(value.getText());
-        } );
-    }
-
-    public void evaluateOptions(String browserType,HashMap<String, AnswerElement> selectedAnswerHashMap, String account, String password, String professorName) {
+    public void evaluateOptions(String browserType, HashMap<String, AnswerElement> selectedAnswerHashMap, String professorName) {
         browser = buildConcreteBrowser(browserType);
         WebDriver driver = browser.getWebDriver();
         WebDriverWait wait = browser.getWebDriverWait();
-        driver.get("https://eval.uv.mx/evaluacion/Estudiante/Estudiante");
-        driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys(account);
-        driver.findElement(By.xpath("//*[@id=\"password\"]")).sendKeys(password);
-        driver.findElement(By.xpath("//*[@id=\"BtnLogin\"]")).click();
-        wait.until( ExpectedConditions.elementToBeClickable(By.xpath("//p[@class = 'title' and contains(text(), '" + professorName + "')]"))).click();
+        navigateInLoginPage();
+        wait.until( ExpectedConditions.elementToBeClickable( By.xpath( PROFESSOR_WITH_ID_SELECTION_XPATH.replace("?",professorName) ) ) ).click();
         selectedAnswerHashMap.forEach( (key, value) -> System.out.println(key));
-        while( !existElement(driver) ) {
-            String pregunta = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//p[@class = 'pregunta']"))).getText();
+        do {
+            String pregunta = wait.until(ExpectedConditions.elementToBeClickable(By.xpath( QUESTION_ELEMENT_XPATH ) ) ).getText();
             if( selectedAnswerHashMap.get(pregunta) != null ) {
-                String xpath = "//*[@class = 'radio radio-primary' or @class ='checkbox checkbox-primary'][" + selectedAnswerHashMap.get(pregunta).getElementPosition() + "]//child::label";
+                String xpath = SELECTABLE_RADIO_OR_CHECKBUTTON_XPATH.replace("?", String.valueOf( selectedAnswerHashMap.get(pregunta).getElementPosition() ) );
                 wait.until( ExpectedConditions.elementToBeClickable( By.xpath(xpath) ) ).click();
             }
-            wait.until( ExpectedConditions.elementToBeClickable( By.xpath("//*[@id='btnPregSig']") ) ).click();
-        }
+            wait.until( ExpectedConditions.elementToBeClickable(By.xpath( BUTTON_NEXT_ELEMENT_XPATH) ) ).click();
+        } while( !existElement(POPUP_ELEMENT_XPATH) );
         driver.close();
-    }
-
-    public boolean existElement(WebDriver driver) {
-        boolean existElement = true;
-        try{
-            driver.findElement(By.xpath("//div[@class = 'toast toast-warning']"));
-        } catch (NoSuchElementException e) {
-            existElement = false;
-        }
-        return existElement;
     }
 
     private Browser buildConcreteBrowser(String browserType) {

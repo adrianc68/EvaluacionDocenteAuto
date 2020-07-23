@@ -1,5 +1,6 @@
 package gui.configure;
 
+import evaluation.QuestionType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import evaluation.AnswerElement;
@@ -40,6 +42,10 @@ public class ConfigureController implements Initializable {
         this.questionElementsList = questionElementList;
     }
 
+    public void setSelectedAnswersHashMap(HashMap<String, AnswerElement> selectedAnswersHashMap) {
+        this.selectedAnswersHashMap = selectedAnswersHashMap;
+    }
+
     public HashMap<String, AnswerElement> getSelectedAnswersHashMap() {
         return selectedAnswersHashMap;
     }
@@ -62,11 +68,16 @@ public class ConfigureController implements Initializable {
     @FXML
     void resetAnswersButtonPressed(ActionEvent event) {
         selectedAnswersHashMap.clear();
+        answerListView.getSelectionModel().clearSelection();
+        questionListView.getSelectionModel().clearSelection();
+        questionSelected = null;
+        answerSelected = null;
     }
 
     @FXML
     void saveAnswerButtonPressed(ActionEvent event) {
         if(answerSelected != null) {
+            System.out.println(answerListView.getSelectionModel().getSelectedItems());
             selectedAnswersHashMap.put( questionSelected.getQuestion() , answerSelected);
         }
     }
@@ -86,7 +97,9 @@ public class ConfigureController implements Initializable {
     private void configureListView() {
         answerElementObservableList = FXCollections.observableArrayList();
         questionElementObservableList = FXCollections.observableArrayList();
-        selectedAnswersHashMap = new HashMap<>();
+        if(selectedAnswersHashMap == null) {
+            selectedAnswersHashMap = new HashMap<>();
+        }
         questionListView.setCellFactory( param -> new ListCell<QuestionElement>() {
             protected void updateItem(QuestionElement p, boolean empty){
                 super.updateItem(p, empty);
@@ -117,6 +130,19 @@ public class ConfigureController implements Initializable {
                 answerElementObservableList.clear();
                 answerElementObservableList.addAll( questionSelected.getAnswerElements() );
                 answerListView.setItems(answerElementObservableList);
+                if(questionSelected.getQuestionType().equals( QuestionType.MULTIPLE) ) {
+                    answerListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                } else {
+                    answerListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                }
+
+
+                AnswerElement answerSelectedPreviously = selectedAnswersHashMap.get(questionSelected.getQuestion());
+                if(answerSelectedPreviously != null) {
+                    answerListView.getSelectionModel().select(answerSelectedPreviously);
+                }
+
+
             }
         });
         answerListView.getSelectionModel().selectedItemProperty().addListener( ((observable, oldValue, newValue) -> {

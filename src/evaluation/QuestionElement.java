@@ -5,6 +5,7 @@ import java.util.List;
 
 public class QuestionElement implements Serializable {
     String question;
+    QuestionType questionType;
     List<AnswerElement> answerElements;
 
     public String getQuestion() {
@@ -13,6 +14,14 @@ public class QuestionElement implements Serializable {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
     }
 
     public List<AnswerElement> getAnswerElements() {
@@ -25,11 +34,11 @@ public class QuestionElement implements Serializable {
 
     @Override
     public String toString() {
-        return "QuestionWebElement{" +
+        return "QuestionElement{" +
                 "question='" + question + '\'' +
-                ", answerWebElements=" + answerElements +
+                ", questionType=" + questionType +
+                ", answerElements=" + answerElements +
                 '}';
     }
-
 
 }
