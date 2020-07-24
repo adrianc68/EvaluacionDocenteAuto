@@ -1,0 +1,400 @@
+
+
+.tooltip {
+  -fx-background: rgba(30,30,30);
+  -fx-text-fill: white;
+  -fx-background-color: rgba(30,30,30,0.8);
+  -fx-max-width:100;
+  -fx-min-width:100;
+  -fx-pref-width:100;
+}
+
+/*
+  RADIO BUTTON
+*/
+.radiobutton {
+
+}
+
+.radiobutton .radio{
+  -fx-border-wdith:1px;
+  -fx-border-radius:15px;
+  -fx-border-color:#000000;
+  -fx-background-color:#ffffff;
+  -fx-background-insets: 0px;
+}
+
+.radiobutton:selected .radio {
+}
+
+/*
+  ICONS
+*/
+
+.firstLevelIcon {
+  -fx-fill:#1C2D41;
+}
+
+.secondLevelIcon {
+  -fx-fill:#1471CD;
+}
+
+.thirdLevelIcon {
+  -fx-fill:#51B071;
+}
+
+.fourLevelIcon {
+    -fx-fill:#ED4D4E;
+}
+
+
+/*
+  IMAGEBOX
+*/
+.imageBox {
+  -fx-border-width:1 1 1 1;
+  -fx-border-color:#323232;
+  -fx-border-radius:3px;
+  -fx-background-radius:3px;
+}
+
+/*
+ FORMS
+*/
+.form {
+  -fx-border-radius: 7px;
+  -fx-border-width:1 1 1 1;
+  -fx-border-color:#000000;
+  -fx-background-color:#ffffff;
+  -fx-background-radius:7px;
+}
+
+.contentForm {
+  -fx-background-color:#FCFCFC;
+  -fx-effect: dropshadow( three-pass-box , rgba(178,178,178,0.97), 7.85,0,0,0);
+}
+
+/*
+ TABLEVIEW
+*/
+.tableView {
+  -fx-text-fill:#8a8a8a;
+  -fx-background-color:#f8f8f8;
+}
+
+.tableView .column-header-background {
+  -fx-background-color:#424242;
+  -fx-cell-size:35px;
+}
+
+#tableColumn {
+  -fx-text-fill:#000000;
+  -fx-font-family:"Open Sans Light";
+  -fx-alignment:CENTER-LEFT;
+}
+
+.table-row-cell{
+    -fx-cell-size:35px;
+}
+
+
+/*
+ LISTVIEW
+*/
+.listView {
+  -fx-background-color:#F2F2F2;
+  -fx-background-radius:3px;
+  -fx-border-width:1 1 1 1;
+  -fx-border-color:#8a8a8a;
+  -fx-border-radius:3px;
+}
+
+.projectListView {
+  -fx-background-color:transparent;
+}
+
+/*
+ CARD
+*/
+.scrollPane {
+  -fx-border-width:1 1 1 1;
+  -fx-border-color:#8a8a8a;
+  -fx-border-radius:3px;
+  -fx-background-radius:3px;
+}
+
+.flowPane {
+  -fx-background-color:#ffffff;
+}
+
+.card {
+  -fx-border-radius: 3px;
+  -fx-border-width:1 1 1 1;
+  -fx-border-color:#8a8a8a;
+  -fx-background-color:#F9F9F9;
+  -fx-background-radius:3px;
+}
+
+.card:hover{
+  -fx-border-width:1 1 1 1;
+  -fx-border-color:#0043ff;
+}
+
+
+.cardDateContainer {
+  -fx-background-color:#DDDEE3;
+  -fx-background-radius:2px;
+  -fx-border-width:1 1 1 1;
+  -fx-border-color:#8a8a8a;
+  -fx-border-radius:0 2 2 0;
+}
+
+.cardFirstLevelLabel {
+  -fx-font-size:18px;
+  -fx-text-fill:#000000;
+  -fx-font-weight:bold;
+}
+
+.cardSecondLevelLabel {
+  -fx-font-size:14px;
+  -fx-text-fill:#000000;
+}
+
+.cardThirdLevelLabel {
+  -fx-text-fill:#636363;
+  -fx-font-size:12px;
+}
+
+.cardTopDescription {
+  -fx-background-color:#DDDEE3;
+  -fx-background-radius:2px;
+  -fx-border-width: 1 1 1 1;
+  -fx-border-color:#8a8a8a;
+  -fx-border-radius:2px;
+}
+
+
+/*
+ TEXTFIELD
+ The textfield doesn't have a specified order.
+*/
+.textfield {
+
+}
+
+.wrongTextField {
+  -fx-fill:#000000;
+}
+
+.correctlyTextField {
+  -fx-fill:#00ff00;
+}
+
+
+/*
+  CHOICEBOX AND COMBOBOX
+*/
+.choiceBox {
+
+}
+
+
+/*
+ LABELS
+ The labels are ordered by importance and represented by a color.
+*/
+
+.firstLevelLabel {
+  -fx-text-fill:#000000;
+  -fx-font-familiy:"Gill Sans";
+}
+
+.secondLevelLabel {
+  -fx-text-fill:#a8a8a8;
+}
+
+.thirdLevelLabel {
+  -fx-text-fill:#aaaaaa;
+}
+
+.lastLevelLabel {
+  -fx-text-fill:#b5b4b4;
+}
+
+.systemLabel {
+  -fx-text-fill:#ff0000;
+}
+
+.recoveryLabel {
+  -fx-text-fill:#a5a4a4;
+}
+
+.recoveryLabel:hover {
+  -fx-text-fill:#6F4CBB;
+}
+
+.formLabel {
+  -fx-text-fill:#7c7b7b;
+  -fx-font-family:"Open Sans";
+  -fx-font-size:11px;
+}
+
+.projectDescriptionLabel {
+  -fx-text-fill:#a0a0a0;
+  -fx-font-family:"Open Sans";
+  -fx-font-size:13px;
+}
+
+.cardLabel {
+  -fx-text-fill:#000000;
+  -fx-font-size:12px;
+  -fx-font-family:"System";
+}
+
+.cardSmallLabel {
+  -fx-text-fill:#000000;
+  -fx-font-size:10px;
+  -fx-font-family:"System";
+}
+
+
+/*
+  SEPARATOR
+*/
+.separator {
+
+}
+
+/*
+ BUTTONS
+ The buttons are ordered by importance and represented by a color.
+*/
+
+
+
+.firstLevelButton {
+  -fx-background-color:#3CAEF7;
+  -fx-text-fill:#ffffff;
+  -fx-border-color:#176ded;
+  -fx-border-radius:2px;
+  -fx-font-family:"Montserrat Light";
+}
+
+.firstLevelButton:hover {
+  -fx-background-color:#4b92fc;
+}
+
+.thirdLevelButton {
+  -fx-background-color:#cccece;
+  -fx-text-fill:#ffffff;
+  -fx-border-width: 1 1 1 1;
+  -fx-border-radius:2px;
+  -fx-font-family:"Sanserif";
+}
+
+.thirdLevelButton:hover {
+  -fx-border-color:#0069aa;
+}
+
+.lastLevelButton {
+  -fx-background-color:#F8F8F8;
+  -fx-text-fill:#C5C5C5;
+  -fx-border-width: 1 1 1 1;
+  -fx-border-color:#B0B0B0;
+  -fx-border-radius:2px;
+}
+
+.lastLevelButton:hover {
+  -fx-border-color:#898989;
+}
+
+.withBorderButton {
+  -fx-background-color:#F9F9F9;
+  -fx-border-color:#8a8a8a;
+  -fx-border-width:1 1 1 1;
+  -fx-border-radius:3px;
+}
+
+.withBorderButton:hover {
+  -fx-background-color:#efefef;
+}
+
+.withoutOutLineButton {
+  -fx-background-color:transparent;
+  -fx-text-fill:#8a8a8a;
+}
+
+.withoutOutLineButton:hover {
+  -fx-text-fill:#000000;
+}
+
+/*
+  SPECIAL FOR PROJECT
+*/
+
+.topDescription {
+  -fx-background-color:#DDDEE3;
+}
+
+.descriptionProject {
+  -fx-background-color:#F8F8F8;
+  -fx-background-radius:3px;
+  -fx-border-width:1 1 1 1;
+  -fx-border-radius:3px;
+  -fx-border-color:#8a8a8a;
+}
+
+.boxBorder {
+  -fx-border-color:#989FA6;
+  -fx-border-width:1 1 1 1;
+  -fx-border-radius:3px;
+  -fx-background-color:#F9F9F9;
+}
+
+
+/*
+  The background
+  There are just 3 themes: Dark theme, White theme and UV theme
+*/
+
+.windowTitle {
+  -fx-background-color:#F9F9F9;
+  -fx-background-radius:0 3 3 0;
+  -fx-border-color:#323232;
+  -fx-border-radius:0 3 3 0;
+  -fx-border-width:0.5px;
+  -fx-text-fill:#323232;
+  -fx-font-family:"Montserrat Light";
+}
+
+.spinner {
+
+}
+
+
+
+.background {
+  -fx-background-color:#ffffff;
+  -fx-background-radius:3px;
+  -fx-border-radius: 3px;
+  -fx-border-color:#323232;
+  -fx-border-width:1 1 1 1;
+}
+
+.innerBackground {
+  -fx-border-width:1 0 1 0;
+  -fx-border-color:#8a8a8a;
+  -fx-background-color:#F9F9F9;
+}
+
+.innerBackgroundWithHover {
+  -fx-border-width:1 0 1 0;
+  -fx-border-color:#8a8a8a;
+  -fx-background-color:#F9F9F9;
+}
+
+.innerBackgroundWithHover:hover {
+  -fx-border-width:1 0 1 0;
+  -fx-border-color:#8a8a8a;
+  -fx-background-color:#efefef;
+}
