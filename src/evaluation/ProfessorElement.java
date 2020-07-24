@@ -3,8 +3,9 @@ package evaluation;
 import java.io.Serializable;
 
 public class ProfessorElement implements Serializable {
-    String professor;
-    int positionWebElement;
+    private static final long serialVersionUID = 442342342512948352L;
+    private String professor;
+    private int positionWebElement;
 
     public String getProfessor() {
         return professor;

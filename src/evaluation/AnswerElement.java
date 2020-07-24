@@ -3,8 +3,10 @@ package evaluation;
 import java.io.Serializable;
 
 public class AnswerElement implements Serializable {
-    String answer;
-    int elementPosition;
+    private static final long serialVersionUID = 442342342512948352L;
+    private String answer;
+    private int elementPosition;
+
 
     public String getAnswer() {
         return answer;

@@ -30,6 +30,8 @@ public class AutomaticBrowserProperties {
             properties.put("professor.with.id.selection", "test");
             properties.put("selectable.radio.or.checkbutton.element", "test");
             properties.put("size.number.single.question.type", "test");
+            properties.put("size.questionnarie.xpath", "test");
+            properties.put("span.field.validation.error.with.message.element.xpath", "test");
             properties.store(output, null);
             result = true;
         } catch (IOException io) {
@@ -108,6 +110,18 @@ public class AutomaticBrowserProperties {
         Properties properties = readProperties();
         String sizeNumberSingleQuestionElement = properties.getProperty("size.number.single.question.type");
         return sizeNumberSingleQuestionElement;
+    }
+
+    public String getSizeQuestionnarieXPath() {
+        Properties properties = readProperties();
+        String sizeQuestionnarieElement = properties.getProperty("size.questionnarie.xpath");
+        return sizeQuestionnarieElement;
+    }
+
+    public String getSpanFieldValidationErrorXPath() {
+        Properties properties = readProperties();
+        String spanValidationError = properties.getProperty("span.field.validation.error.with.message.element.xpath");
+        return spanValidationError;
     }
 
     private Properties readProperties() {

@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 public class QuestionElement implements Serializable {
-    String question;
-    QuestionType questionType;
-    List<AnswerElement> answerElements;
+    private static final long serialVersionUID = 442342342512948352L;
+    private String question;
+    private QuestionType questionType;
+    private List<AnswerElement> answerElements;
 
     public String getQuestion() {
         return question;

@@ -5,39 +5,27 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
 
 public class Serializer {
-    private static final String DATA_PATH = "seg/hoja_seguimiento.data";
+    public static final String DATA_ANSWER_SELECTED_PATH = "seg/hoja_seguimiento.data";
+    public static final String DATA_QUESTIONS_PATH = "seg/preguntas.data";
 
-    public static Object unSerializeObject() {
-        Object object = null;
-        try {
-            FileInputStream fileInputStream = new FileInputStream(DATA_PATH);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+    public static Object unSerializeObject(String path) throws IOException, ClassNotFoundException {
+        Object object;
+        try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path)) ) {
             object = objectInputStream.readObject();
-            objectInputStream.close();
-            fileInputStream.close();
-        } catch(IOException ioe) {
-            ioe.printStackTrace();
-        } catch(ClassNotFoundException c) {
-            System.out.println("Class not found");
-            c.printStackTrace();
+        } catch(IOException | ClassNotFoundException ioe) {
+            throw ioe;
         }
         return object;
     }
 
-    public static boolean serializeObject(Object object) {
-        try {
-            FileOutputStream fos = new FileOutputStream(DATA_PATH);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(object);
-            oos.close();
-            fos.close();
+    public static void serializeObject(Object object, String path) throws IOException {
+        try(ObjectOutputStream objectOutputStream = new ObjectOutputStream( new FileOutputStream(path) ) ){
+            objectOutputStream.writeObject(object);
         } catch(IOException ioe) {
-            ioe.printStackTrace();
+            throw ioe;
         }
-        return true;
     }
 
 }

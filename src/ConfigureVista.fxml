@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="629.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="627.0" prefWidth="1048.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox spacing="15.0">
+               <children>
+                  <VBox spacing="10.0">
+                     <children>
+                        <Label text="Configuración de respuestas" />
+                        <Label prefWidth="1020.0" text="Selecciona una pregunta y las respuestas se desplegará en la tabla de respuestas. Algunas preguntas se deben responder manualmente. " wrapText="true" />
+                     </children>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox prefWidth="1000.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox prefWidth="895.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox prefWidth="449.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" text="Preguntas" textAlignment="CENTER" wrapText="true" />
+                              <ListView fx:id="questionListView" prefHeight="452.0" prefWidth="517.0" VBox.vgrow="ALWAYS" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                        <VBox prefWidth="394.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" text="Respuestas" textAlignment="CENTER" wrapText="true" />
+                              <ListView fx:id="answerListView" prefHeight="452.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="15.0" right="15.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" fillHeight="false">
+               <children>
+                  <HBox spacing="15.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#saveAnswersInFileButtonPressed" prefHeight="42.0" text="Guardar en archivo">
+                           <tooltip>
+                              <Tooltip text="Guarda el estado actual de las preguntas y respuestas en el archivo de respuestas." />
+                           </tooltip></Button>
+                        <Button mnemonicParsing="false" onAction="#resetAnswersButtonPressed" prefHeight="42.0" text="Limpiar respuestas seleccionadas">
+                           <tooltip>
+                              <Tooltip text="Limpia las respuestas que están seleccionadas (no las elimina del archivo de respuestas)." />
+                           </tooltip></Button>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateQuestionsButtonPressed" prefHeight="42.0" text="Actualizar preguntas">
+                           <tooltip>
+                              <Tooltip text="Actualiza las preguntas desde el navegador, esto no cambia las respuestas seleccionadas ni el archivo de respuestas.." />
+                           </tooltip>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" spacing="15.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveAnswerButtonPressed" prefHeight="42.0" text="Guardar respuesta">
+                           <tooltip>
+                              <Tooltip text="Guarda la respuesta seleccionada de una sola pregunta (No se realiza operaciones sobre el archivo de respuestas)" />
+                           </tooltip></Button>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#closeButtonPressed" prefHeight="42.0" text="Cerrar ventana" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" right="20.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
