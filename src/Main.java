@@ -10,5 +10,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         AutomaticEval automaticEval = new AutomaticEval();
         automaticEval.showStage();
+        System.out.println(automaticEval.processName());
     }
+
 }

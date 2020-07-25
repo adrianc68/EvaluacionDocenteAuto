@@ -1,6 +1,5 @@
 package util;
 
-import browser.BrowserProperties;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AutomaticBrowserProperties {
-    private static final String PROPERTIES_PATH = "driver/elementsXPath.properties";
+    private static final String PROPERTIES_PATH = "configuration/driver/elementsXPath.properties";
 
     public boolean writeProperties() {
         boolean result = false;

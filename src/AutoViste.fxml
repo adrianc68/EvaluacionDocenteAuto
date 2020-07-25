@@ -111,34 +111,8 @@
                      <children>
                         <VBox prefWidth="895.0" spacing="5.0">
                            <children>
-                              <VBox fillWidth="false" spacing="10.0">
-                                 <children>
-                                    <Label text="Hoja de respuestas (opcional)" textFill="#e40000" />
-                                 </children>
-                                 <padding>
-                                    <Insets left="5.0" right="5.0" />
-                                 </padding>
-                              </VBox>
                               <VBox fx:id="firefoxOptionsVBox">
                                  <children>
-                                    <VBox fillWidth="false" spacing="5.0">
-                                       <children>
-                                          <VBox fillWidth="false" spacing="10.0">
-                                             <children>
-                                                <Label text="Selecciona otro archivo de respuestas para la herramienta de automatización." />
-                                             </children>
-                                             <padding>
-                                                <Insets left="5.0" right="5.0" />
-                                             </padding>
-                                          </VBox>
-                                          <HBox fillHeight="false" spacing="10.0">
-                                             <children>
-                                                <TextField editable="false" prefHeight="32.0" prefWidth="312.0" promptText="Seleccionar archivo" />
-                                                <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="155.0" text="Seleccionar" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
                                     <VBox fillWidth="false" spacing="5.0">
                                        <children>
                                           <VBox fillWidth="false" spacing="10.0">
@@ -188,7 +162,7 @@
                               <VBox prefHeight="254.0" prefWidth="570.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label alignment="CENTER" text="Lista de profesores" textAlignment="CENTER" wrapText="true" />
-                                    <ListView fx:id="professorListView" prefHeight="232.0" prefWidth="700.0" />
+                                    <ListView fx:id="professorListView" prefHeight="334.0" prefWidth="700.0" />
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />

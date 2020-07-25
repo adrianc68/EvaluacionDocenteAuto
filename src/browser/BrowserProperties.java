@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class BrowserProperties {
-    private static final String PROPERTIES_PATH = "driver/configuration.properties";
+    private static final String PROPERTIES_PATH = "configuration/driver/configuration.properties";
 
     public boolean writeProperties() {
         boolean result = false;
@@ -18,8 +18,10 @@ public class BrowserProperties {
         try ( OutputStream output = new FileOutputStream(PROPERTIES_PATH) ) {
             properties.clear();
             properties.put("browser.selected.wait.time", "10" );
-            properties.put("browser.firefox.path", "driver/firefox/mac/geckodriver" );
-            properties.put("browser.chrome.path", "driver/chrome/mac/chromedriver" );
+            properties.put("browser.firefox.windows.path", "driver/firefox/windows/geckodriver.exe" );
+            properties.put("browser.chrome.windows.path", "driver/chrome/windows/chromedriver.exe" );
+            properties.put("browser.chrome.mac.path", "driver/chrome/mac/chromedriver" );
+            properties.put("browser.firefox.mac.path", "driver/firefox/mac/geckodriver" );
             properties.put("browser.safari.path", "/System/Library/CoreServices/SafariSupport.bundle/Contents/MacOS/safaridriver");
             properties.put("browser.firefox.driver", "webdriver.gecko.driver");
             properties.put("browser.chrome.driver", "webdriver.chrome.driver");

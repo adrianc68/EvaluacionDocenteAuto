@@ -1,5 +1,7 @@
 import alert.OperationAlert;
+import browser.BrowserProperties;
 import evaluation.AnswerElement;
+import exceptions.BrowserErrorException;
 import exceptions.BrowserNotSelectedException;
 import exceptions.ElementNotFoundException;
 import exceptions.EmptyPasswordFieldException;
@@ -27,6 +29,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.openqa.selenium.remote.BrowserType;
+import util.AutomaticBrowserProperties;
 import util.Serializer;
 import java.io.IOException;
 import java.net.URL;
@@ -68,6 +71,11 @@ public class AutomaticEval implements Initializable {
         getStage();
     }
 
+    public Tab getTab() {
+        getStage();
+        return tab;
+    }
+
     public void getStage() {
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/AutoViste.fxml") );
         loader.setController(this);
@@ -88,41 +96,8 @@ public class AutomaticEval implements Initializable {
         stage.showAndWait();
     }
 
-    public Tab getTab() {
-        getStage();
-        return tab;
-    }
-
     public void updateQuestionnaire() {
-        try {
-         verifyInputDataAndSelection();
-         getQuestionnarieFromBrowser();
-        } catch (EmptyUsernameFieldException e) {
-            String title = "¡Verifica tus datos de usuario!";
-            String content = "No has llenado el campo para la cuenta de usuario.";
-            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.FINE, null, e);
-            OperationAlert.showErrorAlert(title, content);
-        } catch (EmptyPasswordFieldException e) {
-            String title = "¡Verifica tus datos de usuario!";
-            String content = "No has llenado el campo para la contraseña de la cuenta de usuario.";
-            OperationAlert.showErrorAlert(title, content);
-            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.FINE, null, e);
-        } catch (BrowserNotSelectedException e) {
-            String title = "¡No has seleccionado un navegador!";
-            String content = "Es necesario que selecciones un navegador para comenzar el proceso.";
-            OperationAlert.showErrorAlert(title, content);
-            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.FINE, null, e);
-        } catch (ElementNotFoundException e) {
-            String title = "¡No se ha encontrado un elemento!";
-            String content = e.getLocalizedMessage();
-            OperationAlert.showErrorAlert(title, content);
-            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.WARNING, null, e);
-        } catch (IncorrectUserException e) {
-            String title = "¡Error en el inicio de sesión!";
-            String content = e.getLocalizedMessage();
-            OperationAlert.showErrorAlert(title, content);
-            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.WARNING, null, e);
-        }
+        updateQuestions();
     }
 
     public List<QuestionElement> getQuestionsList() {
@@ -149,8 +124,20 @@ public class AutomaticEval implements Initializable {
     }
 
     @FXML
+    void configureAnswersButtonPressed(ActionEvent event) {
+        ConfigureController configureController = new ConfigureController(questionsList);
+        configureController.setAutomaticEval(this);
+        if (selectedAnswerHashMap != null) {
+            configureController.setSelectedAnswerHashMap(selectedAnswerHashMap);
+        }
+        configureController.getStage();
+        selectedAnswerHashMap = configureController.getSelectedAnswerHashMap();
+    }
+
+    @FXML
     void getProfessorButtonPressed(ActionEvent event) {
         try {
+            professorsObservableList.clear();
             getProfessorsFromBrowser();
         } catch (ElementNotFoundException e) {
             String title = "¡No se ha encontrado un elemento!";
@@ -162,6 +149,10 @@ public class AutomaticEval implements Initializable {
             String content = e.getLocalizedMessage();
             OperationAlert.showErrorAlert(title, content);
             Logger.getLogger( AutomaticEval.class.getName() ).log(Level.WARNING, null, e);
+        } catch (BrowserErrorException e) {
+            String title = "¡Error al iniciar el navegador!";
+            String content = e.getCause().getMessage();
+            OperationAlert.showErrorAlert(title, content);
         }
     }
 
@@ -176,53 +167,59 @@ public class AutomaticEval implements Initializable {
                 String content = e.getLocalizedMessage();
                 OperationAlert.showErrorAlert(title, content);
                 Logger.getLogger( AutomaticEval.class.getName() ).log(Level.WARNING, null, e);
+            } catch (BrowserErrorException e) {
+                String title = "¡Error al iniciar el navegador!";
+                String content = e.getCause().getMessage();
+                OperationAlert.showErrorAlert(title, content);
             }
         }
     }
 
-    @FXML
-    void configureAnswersButtonPressed(ActionEvent event) {
-        ConfigureController configureController = new ConfigureController(questionsList);
-        configureController.setAutomaticEval(this);
-        if (selectedAnswerHashMap != null) {
-            configureController.setSelectedAnswerHashMap(selectedAnswerHashMap);
+    private void updateQuestions() {
+        try {
+            verifyInputDataAndSelection();
+            getQuestionnarieFromBrowser();
+        } catch (EmptyUsernameFieldException e) {
+            String title = "¡Verifica tus datos de usuario!";
+            String content = "No has llenado el campo para la cuenta de usuario.";
+            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.FINE, null, e);
+            OperationAlert.showErrorAlert(title, content);
+        } catch (EmptyPasswordFieldException e) {
+            String title = "¡Verifica tus datos de usuario!";
+            String content = "No has llenado el campo para la contraseña de la cuenta de usuario.";
+            OperationAlert.showErrorAlert(title, content);
+            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.FINE, null, e);
+        } catch (BrowserNotSelectedException e) {
+            String title = "¡No has seleccionado un navegador!";
+            String content = "Es necesario que selecciones un navegador para comenzar el proceso.";
+            OperationAlert.showErrorAlert(title, content);
+            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.FINE, null, e);
+        } catch (ElementNotFoundException e) {
+            String title = "¡No se ha encontrado un elemento!";
+            String content = e.getLocalizedMessage();
+            OperationAlert.showErrorAlert(title, content);
+            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.WARNING, null, e);
+        } catch (IncorrectUserException e) {
+            String title = "¡Error en el inicio de sesión!";
+            String content = e.getLocalizedMessage();
+            OperationAlert.showErrorAlert(title, content);
+            Logger.getLogger( AutomaticEval.class.getName() ).log(Level.WARNING, null, e);
+        } catch (BrowserErrorException e) {
+            String title = "¡Error al iniciar el navegador!";
+            String content = e.getCause().getMessage();
+            OperationAlert.showErrorAlert(title, content);
         }
-        configureController.getStage();
-        selectedAnswerHashMap = configureController.getSelectedAnswerHashMap();
     }
 
-    private void verifyInputDataAndSelection() throws EmptyUsernameFieldException, EmptyPasswordFieldException, BrowserNotSelectedException {
-        if( userTextField.getText().isEmpty() ) {
-            throw new EmptyUsernameFieldException("¡El campo de nombre de usuario no se ha llenado!");
-        }
-        if( passwordPasswordField.getText().isEmpty() ) {
-            throw new EmptyPasswordFieldException("¡El campo de contraseña no se ha llenado!");
-        }
-        if( selectedBrowser == null ) {
-            throw new BrowserNotSelectedException("¡No se ha seleccionado un navegador!");
-        }
-    }
-
-    private void getQuestionnarieFromBrowser() throws ElementNotFoundException, IncorrectUserException {
+    private void getQuestionnarieFromBrowser() throws BrowserErrorException, IncorrectUserException, ElementNotFoundException {
         AutomaticBrowser automaticBrowser = new AutomaticBrowser( userTextField.getText(), passwordPasswordField.getText() );
         questionsList = automaticBrowser.getQuestions(selectedBrowser);
     }
 
-    private void getProfessorsFromBrowser() throws ElementNotFoundException, IncorrectUserException {
+    private void getProfessorsFromBrowser() throws BrowserErrorException, IncorrectUserException, ElementNotFoundException {
         AutomaticBrowser automaticBrowser = new AutomaticBrowser( userTextField.getText(), passwordPasswordField.getText() );
         professorsObservableList.addAll( automaticBrowser.getProfessor(selectedBrowser) );
         professorListView.setItems(professorsObservableList);
-    }
-
-    private void configureToggleButton() {
-        safariButton.setToggleGroup(toggleGroup);
-        chromeButton.setToggleGroup(toggleGroup);
-        firefoxButton.setToggleGroup(toggleGroup);
-        toggleGroup.selectedToggleProperty().addListener( (observable, oldValue, newValue) -> {
-            if(newValue != null) {
-                getProfessorButton.setDisable(false);
-            }
-        });
     }
 
     private void getAnswersPreconfiguredFromFile() {
@@ -250,6 +247,29 @@ public class AutomaticEval implements Initializable {
             if(newValue != null) {
                 professorSelected = newValue;
                 evaluateButton.setDisable(false);
+            }
+        });
+    }
+
+    private void verifyInputDataAndSelection() throws EmptyUsernameFieldException, EmptyPasswordFieldException, BrowserNotSelectedException {
+        if( userTextField.getText().isEmpty() ) {
+            throw new EmptyUsernameFieldException("¡El campo de nombre de usuario no se ha llenado!");
+        }
+        if( passwordPasswordField.getText().isEmpty() ) {
+            throw new EmptyPasswordFieldException("¡El campo de contraseña no se ha llenado!");
+        }
+        if( selectedBrowser == null ) {
+            throw new BrowserNotSelectedException("¡No se ha seleccionado un navegador!");
+        }
+    }
+
+    private void configureToggleButton() {
+        safariButton.setToggleGroup(toggleGroup);
+        chromeButton.setToggleGroup(toggleGroup);
+        firefoxButton.setToggleGroup(toggleGroup);
+        toggleGroup.selectedToggleProperty().addListener( (observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                getProfessorButton.setDisable(false);
             }
         });
     }

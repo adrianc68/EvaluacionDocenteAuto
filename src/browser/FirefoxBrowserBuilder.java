@@ -1,5 +1,6 @@
 package browser;
 
+import exceptions.BrowserErrorException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,8 +23,13 @@ public class FirefoxBrowserBuilder extends BrowserBuilder {
     }
 
     @Override
-    public void configureWebDriver() {
-        FirefoxDriver firefoxDriver = new FirefoxDriver( browser.getBrowserOptions() );
+    public void configureWebDriver() throws BrowserErrorException {
+        FirefoxDriver firefoxDriver;
+        try {
+            firefoxDriver = new FirefoxDriver( browser.getBrowserOptions() );
+        } catch (Exception e) {
+            throw new BrowserErrorException("¡No se pudo iniciar el navegador seleccionado", e);
+        }
         browser.setWebDriver(firefoxDriver);
     }
 

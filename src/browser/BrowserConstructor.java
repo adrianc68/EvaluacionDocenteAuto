@@ -1,5 +1,6 @@
 package browser;
 
+import exceptions.BrowserErrorException;
 import org.openqa.selenium.WebDriver;
 
 public class BrowserConstructor {
@@ -20,7 +21,7 @@ public class BrowserConstructor {
         browserBuilder.configureDriver();
     }
 
-    public WebDriver initializeWebDriver() {
+    public WebDriver initializeWebDriver() throws BrowserErrorException {
         browserBuilder.configureWebDriver();
         browserBuilder.configureWebDriverWait();
         return browserBuilder.getBrowser().getWebDriver();

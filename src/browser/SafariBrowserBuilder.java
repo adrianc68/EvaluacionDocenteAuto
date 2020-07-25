@@ -1,5 +1,6 @@
 package browser;
 
+import exceptions.BrowserErrorException;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,8 +23,13 @@ public class SafariBrowserBuilder extends BrowserBuilder {
     }
 
     @Override
-    public void configureWebDriver() {
-        SafariDriver safariDriver = new SafariDriver( browser.getBrowserOptions() );
+    public void configureWebDriver() throws BrowserErrorException {
+        SafariDriver safariDriver;
+        try{
+            safariDriver = new SafariDriver( browser.getBrowserOptions() );
+        } catch(Exception e) {
+            throw new BrowserErrorException("¡No se pudo iniciar el navegador seleccionado", e);
+        }
         browser.setWebDriver(safariDriver);
     }
 

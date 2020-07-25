@@ -1,5 +1,6 @@
 package browser;
 
+import exceptions.BrowserErrorException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,8 +23,13 @@ public class ChromeBrowserBuilder extends BrowserBuilder {
     }
 
     @Override
-    public void configureWebDriver() {
-        ChromeDriver chromeDriver = new ChromeDriver( browser.getBrowserOptions() );
+    public void configureWebDriver() throws BrowserErrorException {
+        ChromeDriver chromeDriver;
+        try{
+            chromeDriver = new ChromeDriver( browser.getBrowserOptions() );
+        } catch (Exception e) {
+            throw new BrowserErrorException("¡No se pudo iniciar el navegador seleccionado", e);
+        }
         browser.setWebDriver(chromeDriver);
     }
 

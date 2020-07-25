@@ -81,6 +81,7 @@ public class ConfigureController implements Initializable {
     void updateQuestionsButtonPressed(ActionEvent event) {
         automaticEval.updateQuestionnaire();
         questionsList = automaticEval.getQuestionsList();
+        questionsObservableList.clear();
         questionsObservableList.addAll(questionsList);
         questionListView.setItems(questionsObservableList);
     }
@@ -106,11 +107,18 @@ public class ConfigureController implements Initializable {
         try {
             Serializer.serializeObject(selectedAnswerHashMap, Serializer.DATA_ANSWER_SELECTED_PATH);
             Serializer.serializeObject(questionsList, Serializer.DATA_QUESTIONS_PATH);
+            showSuccessfullAlert();
         } catch (IOException e) {
             String title = "¡Problema al guardar las preguntas y respuestas en el archivo de respuestas!";
             String content = "¡Existe un problema para almacenar, verifica que el archivo exista en la carpeta contenedora!";
             OperationAlert.showErrorAlert(title, content);
         }
+    }
+
+    private void showSuccessfullAlert() {
+        String title = "¡Guardado en archivo de respuestas!";
+        String content = "Se ha guardado las preguntas y respuestas en el archivo de respuestas. Esta se cargará al iniciar el sistema";
+        OperationAlert.showSuccessfullAlert(title, content);
     }
 
     private List<AnswerElement> castObservableListToList(ObservableList<AnswerElement> observableList) {

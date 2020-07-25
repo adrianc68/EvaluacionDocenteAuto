@@ -7,8 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class Serializer {
-    public static final String DATA_ANSWER_SELECTED_PATH = "seg/hoja_seguimiento.data";
-    public static final String DATA_QUESTIONS_PATH = "seg/preguntas.data";
+    public static final String DATA_ANSWER_SELECTED_PATH = "configuration/seg/hoja_seguimiento.data";
+    public static final String DATA_QUESTIONS_PATH = "configuration/seg/preguntas.data";
 
     public static Object unSerializeObject(String path) throws IOException, ClassNotFoundException {
         Object object;
