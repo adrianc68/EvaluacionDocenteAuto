@@ -6,6 +6,7 @@ import exceptions.BrowserNotSelectedException;
 import exceptions.ElementNotFoundException;
 import exceptions.EmptyPasswordFieldException;
 import exceptions.EmptyUsernameFieldException;
+import exceptions.ErrorKillProcessException;
 import exceptions.IncorrectUserException;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -29,8 +30,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.openqa.selenium.remote.BrowserType;
-import util.AutomaticBrowserProperties;
 import util.Serializer;
+import util.SystemControl;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -153,15 +154,18 @@ public class AutomaticEval implements Initializable {
             String title = "¡Error al iniciar el navegador!";
             String content = e.getCause().getMessage();
             OperationAlert.showErrorAlert(title, content);
+        } catch (ErrorKillProcessException e) {
+            String title = e.getLocalizedMessage();
+            String content = "Debes matar el proceso manualmente";
+            OperationAlert.showErrorAlert(title, content);
         }
     }
 
     @FXML
     void evaluateProfessorButtonPressed(ActionEvent event) {
         if( professorSelected != null && selectedAnswerHashMap != null && selectedBrowser != null) {
-            AutomaticBrowser automaticBrowser = new AutomaticBrowser(userTextField.getText(), passwordPasswordField.getText());
             try {
-                automaticBrowser.evaluateOptions(selectedBrowser, selectedAnswerHashMap, professorSelected.getProfessor() );
+                evaluateProfessorInBrowser();
             } catch (IncorrectUserException e) {
                 String title = "¡Error en el inicio de sesión!";
                 String content = e.getLocalizedMessage();
@@ -170,6 +174,10 @@ public class AutomaticEval implements Initializable {
             } catch (BrowserErrorException e) {
                 String title = "¡Error al iniciar el navegador!";
                 String content = e.getCause().getMessage();
+                OperationAlert.showErrorAlert(title, content);
+            } catch (ErrorKillProcessException e) {
+                String title = e.getLocalizedMessage();
+                String content = "Debes matar el proceso manualmente.";
                 OperationAlert.showErrorAlert(title, content);
             }
         }
@@ -208,18 +216,40 @@ public class AutomaticEval implements Initializable {
             String title = "¡Error al iniciar el navegador!";
             String content = e.getCause().getMessage();
             OperationAlert.showErrorAlert(title, content);
+        } catch (ErrorKillProcessException e) {
+            String title = e.getLocalizedMessage();
+            String content = "Debes matar el proceso manualmente";
+            OperationAlert.showErrorAlert(title, content);
         }
     }
 
-    private void getQuestionnarieFromBrowser() throws BrowserErrorException, IncorrectUserException, ElementNotFoundException {
+    private void getQuestionnarieFromBrowser() throws BrowserErrorException, IncorrectUserException, ElementNotFoundException, ErrorKillProcessException {
         AutomaticBrowser automaticBrowser = new AutomaticBrowser( userTextField.getText(), passwordPasswordField.getText() );
         questionsList = automaticBrowser.getQuestions(selectedBrowser);
+        killProcess();
     }
 
-    private void getProfessorsFromBrowser() throws BrowserErrorException, IncorrectUserException, ElementNotFoundException {
+    private void getProfessorsFromBrowser() throws BrowserErrorException, IncorrectUserException, ElementNotFoundException, ErrorKillProcessException {
         AutomaticBrowser automaticBrowser = new AutomaticBrowser( userTextField.getText(), passwordPasswordField.getText() );
         professorsObservableList.addAll( automaticBrowser.getProfessor(selectedBrowser) );
         professorListView.setItems(professorsObservableList);
+        killProcess();
+    }
+
+    private void evaluateProfessorInBrowser() throws BrowserErrorException, IncorrectUserException, ErrorKillProcessException {
+        AutomaticBrowser automaticBrowser = new AutomaticBrowser(userTextField.getText(), passwordPasswordField.getText());
+        automaticBrowser.evaluateOptions(selectedBrowser, selectedAnswerHashMap, professorSelected.getProfessor() );
+        killProcess();
+    }
+
+    private void killProcess() throws ErrorKillProcessException {
+        //  Yes but actually no.
+        try{
+            SystemControl.killProcess(selectedBrowser);
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+            throw new ErrorKillProcessException("¡No se pudo eliminar el proceso!", e);
+        }
     }
 
     private void getAnswersPreconfiguredFromFile() {

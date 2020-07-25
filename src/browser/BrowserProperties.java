@@ -1,5 +1,7 @@
 package browser;
 
+import util.SystemInformation;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,12 +43,26 @@ public class BrowserProperties {
 
     public String readFirefoxDriverPathProperty() {
         Properties properties = readProperties();
-        return properties.getProperty("browser.firefox.path");
+        String operatingSystem = SystemInformation.getOSName().toUpperCase();
+        String driverPath;
+        if( operatingSystem.contains("MAC") ) {
+            driverPath = properties.getProperty("browser.firefox.mac.path");
+        } else {
+            driverPath = properties.getProperty("browser.firefox.windows.path");
+        }
+        return driverPath;
     }
 
     public String readChromeDriverPathProperty() {
         Properties properties = readProperties();
-        return properties.getProperty("browser.chrome.path");
+        String operatingSystem = SystemInformation.getOSName().toUpperCase();
+        String driverPath;
+        if( operatingSystem.contains("MAC") ) {
+            driverPath = properties.getProperty("browser.chrome.mac.path");
+        } else {
+            driverPath = properties.getProperty("browser.chrome.windows.path");
+        }
+        return driverPath;
     }
 
     public int readWaitTimeProperty() {

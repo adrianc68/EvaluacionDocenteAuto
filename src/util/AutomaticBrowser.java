@@ -159,9 +159,9 @@ public class AutomaticBrowser {
     private void navigateInLoginPage() throws IncorrectUserException {
         WebDriver driver = browser.getWebDriver();
         driver.get(URL);
-        driver.findElement(By.xpath(USERNAME_ELEMENT_XPATH)).sendKeys(ACCOUNT);
-        driver.findElement(By.xpath(PASSWORD_ELEMENT_XPATH)).sendKeys(PASSWORD);
-        driver.findElement(By.xpath(BUTTON_LOGIN_ELEMENT_XPATH)).click();
+        driver.findElement( By.xpath(USERNAME_ELEMENT_XPATH) ).sendKeys(ACCOUNT);
+        driver.findElement( By.xpath(PASSWORD_ELEMENT_XPATH) ).sendKeys(PASSWORD);
+        driver.findElement( By.xpath(BUTTON_LOGIN_ELEMENT_XPATH) ).click();
         try {
             Thread.sleep(400);
         } catch (InterruptedException e) {

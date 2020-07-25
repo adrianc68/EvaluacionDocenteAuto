@@ -7,10 +7,9 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         AutomaticEval automaticEval = new AutomaticEval();
         automaticEval.showStage();
-        System.out.println(automaticEval.processName());
     }
 
 }
