@@ -78,7 +78,7 @@ public class AutomaticEval implements Initializable {
     }
 
     public void getStage() {
-        FXMLLoader loader = new FXMLLoader( getClass().getResource("/AutoViste.fxml") );
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/AutoViste.fxml") );
         loader.setController(this);
         try {
             AnchorPane autoPane = loader.load();

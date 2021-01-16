@@ -46,7 +46,7 @@
                            <children>
                               <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@resources/safari.png" />
+                                    <Image url="@../resources/safari.png" />
                                  </image>
                               </ImageView>
                               <Label text="Safari">
@@ -69,7 +69,7 @@
                            <children>
                               <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@resources/chrome.png" />
+                                    <Image url="@../resources/chrome.png" />
                                  </image>
                               </ImageView>
                               <Label text="Chrome">
@@ -89,7 +89,7 @@
                            <children>
                               <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@resources/firefox.png" />
+                                    <Image url="@../resources/firefox.png" />
                                  </image>
                               </ImageView>
                               <Label text="Firefox">

@@ -42,7 +42,7 @@ public class ConfigureController implements Initializable {
     }
 
     public void getStage() {
-        FXMLLoader loader = new FXMLLoader( getClass().getResource("/ConfigureVista.fxml") );
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/ConfigureVista.fxml") );
         loader.setController(this);
         try {
             AnchorPane autoPane = loader.load();
