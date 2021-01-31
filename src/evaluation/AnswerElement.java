@@ -4,16 +4,16 @@ import java.io.Serializable;
 
 public class AnswerElement implements Serializable {
     private static final long serialVersionUID = 442342342512948352L;
-    private String answer;
+    private String subInstruction;
+    private String instruction;
     private int elementPosition;
 
-
-    public String getAnswer() {
-        return answer;
+    public String getInstruction() {
+        return instruction;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
     }
 
     public int getElementPosition() {
@@ -24,10 +24,19 @@ public class AnswerElement implements Serializable {
         this.elementPosition = elementPosition;
     }
 
+    public String getSubInstruction() {
+        return subInstruction;
+    }
+
+    public void setSubInstruction(String subInstruction) {
+        this.subInstruction = subInstruction;
+    }
+
     @Override
     public String toString() {
         return "AnswerElement{" +
-                "answer='" + answer + '\'' +
+                "subInstruction='" + subInstruction + '\'' +
+                ", instruction='" + instruction + '\'' +
                 ", elementPosition=" + elementPosition +
                 '}';
     }

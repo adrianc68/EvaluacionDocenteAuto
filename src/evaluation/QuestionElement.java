@@ -8,6 +8,16 @@ public class QuestionElement implements Serializable {
     private String question;
     private QuestionType questionType;
     private List<AnswerElement> answerElements;
+    private TableAnswerElement tableAnswerElements;
+    private OpenAnswerElement openAnswerElement;
+
+    public OpenAnswerElement getOpenAnswerElement() {
+        return openAnswerElement;
+    }
+
+    public void setOpenAnswerElement(OpenAnswerElement openAnswerElement) {
+        this.openAnswerElement = openAnswerElement;
+    }
 
     public String getQuestion() {
         return question;
@@ -33,12 +43,22 @@ public class QuestionElement implements Serializable {
         this.answerElements = answerElements;
     }
 
+    public TableAnswerElement getTableAnswerElements() {
+        return tableAnswerElements;
+    }
+
+    public void setTableAnswerElements(TableAnswerElement tableAnswerElements) {
+        this.tableAnswerElements = tableAnswerElements;
+    }
+
     @Override
     public String toString() {
         return "QuestionElement{" +
                 "question='" + question + '\'' +
                 ", questionType=" + questionType +
                 ", answerElements=" + answerElements +
+                ", tableAnswerElements=" + tableAnswerElements +
+                ", openAnswerElement=" + openAnswerElement +
                 '}';
     }
 
